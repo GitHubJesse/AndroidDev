@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
         del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                delCharacter();
                 ioBufferTextView.setText(ioBufferTextView.getText().toString() + "");
             }
         });
@@ -199,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        
+
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -268,6 +269,16 @@ public class MainActivity extends AppCompatActivity {
             tempOperator = operator;
         }else{
             leftValueBuffer = leftValueBuffer+n;
+        }
+    }
+
+    public void delCharacter(){
+        if (!leftValueFilled){
+            leftValueBuffer = leftValueBuffer.substring(0,leftValueBuffer.length()-1);
+            ioBufferTextView.setText(leftValueBuffer);
+        } else {
+            rightValueBuffer = rightValueBuffer.substring(0,rightValueBuffer.length()-1);
+            ioBufferTextView.setText(rightValueBuffer);
         }
     }
 }
