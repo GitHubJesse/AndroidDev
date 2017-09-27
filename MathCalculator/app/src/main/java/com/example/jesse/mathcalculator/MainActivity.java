@@ -10,14 +10,11 @@ public class MainActivity extends AppCompatActivity {
 
     Calculator calc = new Calculator();
 
-    //Create Global Variable for calculation
-    private String leftValueBuffer;
-    private String rightValueBuffer;
-    private boolean leftValueFilled = false;
-    private double leftValue = 0;
-    private double rightValue = 0;
+    //Global Variables
     private String operator;
-    private double result;
+    private boolean leftValueFilled = false;
+    public String leftValueBuffer = "";
+    public String rightValueBuffer = "";
 
     //Initialize all buttons and TextViews
     private Button zero;
@@ -41,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private Button equals;
     private TextView ioBufferTextView;
     private TextView ioResultTextView;
+    private TextView debugTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ioBufferTextView.setText(ioBufferTextView.getText().toString() + "0");
+                useNumber("0");
             }
         });
 
@@ -63,78 +62,99 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ioBufferTextView.setText(ioBufferTextView.getText().toString() + "1");
+                useNumber("1");
             }
         });
         two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ioBufferTextView.setText(ioBufferTextView.getText().toString() + "2");
+                useNumber("2");
             }
         });
         three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ioBufferTextView.setText(ioBufferTextView.getText().toString() + "3");
+                useNumber("3");
             }
         });
         four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ioBufferTextView.setText(ioBufferTextView.getText().toString() + "4");
+                useNumber("4");
             }
         });
         five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ioBufferTextView.setText(ioBufferTextView.getText().toString() + "5");
+                useNumber("5");
             }
         });
         six.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ioBufferTextView.setText(ioBufferTextView.getText().toString() + "6");
+                useNumber("6");
             }
         });
         seven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ioBufferTextView.setText(ioBufferTextView.getText().toString() + "7");
+                useNumber("7");
             }
         });
         eight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ioBufferTextView.setText(ioBufferTextView.getText().toString() + "8");
+                useNumber("8");
             }
         });
         nine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ioBufferTextView.setText(ioBufferTextView.getText().toString() + "9");
+                useNumber("9");
             }
         });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calc.useOperator("+");
+                if(leftValueBuffer != "") {
+                    operator = "+";
+                    useOperator();
+                }
             }
         });
         sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calc.useOperator("-");
+                if(leftValueBuffer != "") {
+                    operator = "-";
+                    useOperator();
+                }
             }
         });
         multi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calc.useOperator("*");
+                if(leftValueBuffer != "") {
+                    operator = "*";
+                    useOperator();
+                }
             }
         });
         div.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calc.useOperator("/");
+                if(leftValueBuffer != "") {
+                    operator = "/";
+                    useOperator();
+                }
             }
         });
         dec.setOnClickListener(new View.OnClickListener() {
@@ -160,8 +180,8 @@ public class MainActivity extends AppCompatActivity {
         equals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ioBufferTextView.setText(ioBufferTextView.getText().toString() + "=");
-                calc.calculateResult();
+                ioBufferTextView.setText(ioBufferTextView.getText().toString() + " = ");
+                //calc.calculateResult(operator);
             }
         });
         clear.setOnClickListener(new View.OnClickListener() {
@@ -171,16 +191,17 @@ public class MainActivity extends AppCompatActivity {
                 leftValueBuffer = "";
                 rightValueBuffer = "";
                 leftValueFilled = false;
-                leftValue = 0;
-                rightValue = 0;
+                calc.leftValue = 0;
+                calc.rightValue = 0;
                 ioBufferTextView.setText("");
                 ioResultTextView.setText("0");
+                debugTextView.setText("_");
             }
         });
     }
 
     //Assign each button id to a var
-    private void setupUIButtons() {
+    public void setupUIButtons() {
         zero = (Button) findViewById(R.id.btn0);
         one = (Button) findViewById(R.id.btn1);
         two = (Button) findViewById(R.id.btn2);
@@ -202,8 +223,29 @@ public class MainActivity extends AppCompatActivity {
         equals = (Button) findViewById(R.id.btnEquals);
         ioBufferTextView = (TextView) findViewById(R.id.ioBufferTextView);
         ioResultTextView = (TextView) findViewById(R.id.ioResultTextView);
+        debugTextView = (TextView) findViewById(R.id.debugTextView);
     }
 
+    /*Is called every time an operator is called.
+        Pushes existing value into the Left Value if empty.
+        If left value isn't empty, calculate the output using the current value and operator.
+    */
+    private void useOperator(){
+        String currentValue = ioBufferTextView.getText().toString();
+        ioBufferTextView.setText(currentValue + " " + operator + " ");
+        if (leftValueFilled) {
+            calc.result = Double.parseDouble(calc.calculateResult(operator));
+        }
+        System.out.printf(operator);
+    }
 
+    public void useNumber(String n){
+        if (leftValueFilled) {
+
+        }else{
+            leftValueBuffer = leftValueBuffer+n;
+            debugTextView.setText(leftValueBuffer);
+        }
+    }
 }
 

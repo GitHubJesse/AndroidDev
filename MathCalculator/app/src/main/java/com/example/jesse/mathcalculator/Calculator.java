@@ -5,32 +5,13 @@ package com.example.jesse.mathcalculator;
  */
 
 public class Calculator {
-    private void useNumber(String n){
-        if (leftValueFilled){
-            rightValueBuffer += n;
-            rightValue = Double.parseDouble(rightValueBuffer);
-        }else{
-            leftValueBuffer += n;
-            leftValue = Double.parseDouble(leftValueBuffer);
-        }
-    }
 
-    /*Is called every time an operator is called.
-        Pushes existing value into the Left Value if empty.
-        If left value isn't empty, calculate the output using the current value and operator.
-    */
-    private void useOperator(String o){
-        operator = o;
-        String currentValue = ioBufferTextView.getText().toString();
-        ioBufferTextView.setText(currentValue+" "+o+" ");
-        if(leftValueFilled){
-            calculateResult();
-        }else{
-            leftValueFilled = true;
-        }
-    }
+    //Create Global Variable for calculation
+    public double leftValue;
+    public double rightValue;
+    public double result;
 
-    private void calculateResult(){
+    public String calculateResult(String operator){
         switch (operator){
             case "+":
                 result = leftValue + rightValue;
@@ -38,12 +19,13 @@ public class Calculator {
             case "-":
                 break;
             case "*":
+                result = leftValue * rightValue;
                 break;
             case "/":
                 break;
         }
 
         String resultString = Double.toString(result);
-        ioResultTextView.setText(resultString);
+        return resultString;
     }
 }
