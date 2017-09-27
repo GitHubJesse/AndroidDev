@@ -9,23 +9,50 @@ public class Calculator {
     //Create Global Variable for calculation
     public double leftValue;
     public double rightValue;
+    public  boolean leftNegative = false;
+    public  boolean rightNegative = false;
     public double result;
 
-    public String calculateResult(String operator){
+    public String calculateResult(String leftVal, String operator, String rightVal){
+        leftValue = Double.parseDouble(leftVal);
+        rightValue = Double.parseDouble(rightVal);
+
         switch (operator){
             case "+":
-                result = leftValue + rightValue;
+                add();
                 break;
             case "-":
+                subtract();
                 break;
             case "*":
-                result = leftValue * rightValue;
+                multiply();
                 break;
             case "/":
+                divide();
                 break;
         }
 
         String resultString = Double.toString(result);
         return resultString;
+    }
+
+    public void add(){
+        result = leftValue + rightValue;
+    }
+
+    public void subtract(){
+        result = leftValue - rightValue;
+    }
+
+    public void divide(){
+        result = leftValue / rightValue;
+    }
+
+    public void multiply(){
+        result = leftValue * rightValue;
+    }
+
+    public void negativeValue(){
+
     }
 }

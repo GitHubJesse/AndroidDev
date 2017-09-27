@@ -12,9 +12,11 @@ public class MainActivity extends AppCompatActivity {
 
     //Global Variables
     private String operator;
+    private String tempOperator;
     private boolean leftValueFilled = false;
     public String leftValueBuffer = "";
     public String rightValueBuffer = "";
+    private String resultDisplay;
 
     //Initialize all buttons and TextViews
     private Button zero;
@@ -38,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private Button equals;
     private TextView ioBufferTextView;
     private TextView ioResultTextView;
-    private TextView debugTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,7 +161,13 @@ public class MainActivity extends AppCompatActivity {
         dec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!ioBufferTextView.getText().toString().contains(".")) {
+                if (leftValueFilled) {
+                    if (!(rightValueBuffer.contains("."))) {
+                        rightValueBuffer += ".";
+                        ioBufferTextView.setText(ioBufferTextView.getText().toString() + ".");
+                    }
+                } else if (!(leftValueBuffer.contains("."))) {
+                    leftValueBuffer += ".";
                     ioBufferTextView.setText(ioBufferTextView.getText().toString() + ".");
                 }
             }
@@ -175,13 +182,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ioBufferTextView.setText(ioBufferTextView.getText().toString() + "-");
+                if(!leftValueFilled){
+                    calc.leftNegative = true;
+                } else {
+                    calc.rightNegative = true;
+                }
             }
         });
         equals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ioBufferTextView.setText(ioBufferTextView.getText().toString() + " = ");
-                //calc.calculateResult(operator);
+                if(leftValueBuffer != "") {
+                    ioBufferTextView.setText(ioBufferTextView.getText().toString() + " = ");
+                    resultDisplay = calc.calculateResult(leftValueBuffer, tempOperator, rightValueBuffer);
+                    ioResultTextView.setText(resultDisplay);
+                }
             }
         });
         clear.setOnClickListener(new View.OnClickListener() {
@@ -195,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
                 calc.rightValue = 0;
                 ioBufferTextView.setText("");
                 ioResultTextView.setText("0");
-                debugTextView.setText("_");
             }
         });
     }
@@ -223,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
         equals = (Button) findViewById(R.id.btnEquals);
         ioBufferTextView = (TextView) findViewById(R.id.ioBufferTextView);
         ioResultTextView = (TextView) findViewById(R.id.ioResultTextView);
-        debugTextView = (TextView) findViewById(R.id.debugTextView);
     }
 
     /*Is called every time an operator is called.
@@ -234,17 +247,24 @@ public class MainActivity extends AppCompatActivity {
         String currentValue = ioBufferTextView.getText().toString();
         ioBufferTextView.setText(currentValue + " " + operator + " ");
         if (leftValueFilled) {
-            calc.result = Double.parseDouble(calc.calculateResult(operator));
+            resultDisplay = calc.calculateResult(leftValueBuffer, tempOperator, rightValueBuffer);
+            ioResultTextView.setText(resultDisplay);
+
+            //Ready values for next input
+            leftValueBuffer = resultDisplay;
+            rightValueBuffer = "";
+        } else {
+            leftValueFilled = true;
         }
         System.out.printf(operator);
     }
 
     public void useNumber(String n){
         if (leftValueFilled) {
-
+            rightValueBuffer = rightValueBuffer+n;
+            tempOperator = operator;
         }else{
             leftValueBuffer = leftValueBuffer+n;
-            debugTextView.setText(leftValueBuffer);
         }
     }
 }

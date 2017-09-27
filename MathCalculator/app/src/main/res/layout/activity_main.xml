@@ -23,18 +23,6 @@
         app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
-        android:id="@+id/debugTextView"
-        android:layout_width="214dp"
-        android:layout_height="93dp"
-        android:background="@android:color/darker_gray"
-        android:gravity="center"
-        android:textColor="@android:color/holo_blue_light"
-        android:textSize="30sp"
-        android:visibility="visible"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="77dp" />
-
-    <TextView
         android:id="@+id/ioBufferTextView"
         android:layout_width="330dp"
         android:layout_height="41dp"
