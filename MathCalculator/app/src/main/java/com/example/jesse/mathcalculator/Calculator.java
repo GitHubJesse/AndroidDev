@@ -13,6 +13,8 @@ public class Calculator {
     public  boolean rightNegative = false;
     public double result;
 
+    public boolean divByZero = false;
+
     public String calculateResult(String leftVal, String operator, String rightVal){
         leftValue = Double.parseDouble(leftVal);
         rightValue = Double.parseDouble(rightVal);
@@ -47,6 +49,9 @@ public class Calculator {
     }
 
     public void divide(){
+        if(rightValue == 0.0)
+            divByZero = true;
+
         result = leftValue / rightValue;
     }
 

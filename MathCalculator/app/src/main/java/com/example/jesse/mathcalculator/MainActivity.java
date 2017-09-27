@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Button dec;
     private Button del;
     private Button negative;
+
     private Button clear;
     private Button equals;
     private TextView ioBufferTextView;
@@ -212,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
                 calc.rightValue = 0;
                 calc.leftNegative = false;
                 calc.rightNegative = false;
+                calc.divByZero = false;
                 ioBufferTextView.setText("");
                 ioResultTextView.setText("0");
             }
@@ -252,15 +254,17 @@ public class MainActivity extends AppCompatActivity {
         ioBufferTextView.setText(currentValue + " " + operator + " ");
         if (leftValueFilled) {
             resultDisplay = calc.calculateResult(leftValueBuffer, tempOperator, rightValueBuffer);
-            ioResultTextView.setText(resultDisplay);
 
+            if(calc.divByZero)
+                resultDisplay = "NaN";
+
+            ioResultTextView.setText(resultDisplay);
             //Ready values for next input
             leftValueBuffer = resultDisplay;
             rightValueBuffer = "";
         } else {
             leftValueFilled = true;
         }
-        System.out.printf(operator);
     }
 
     public void useNumber(String n){
