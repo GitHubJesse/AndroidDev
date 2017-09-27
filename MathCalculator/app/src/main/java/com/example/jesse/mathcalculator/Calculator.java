@@ -17,6 +17,8 @@ public class Calculator {
         leftValue = Double.parseDouble(leftVal);
         rightValue = Double.parseDouble(rightVal);
 
+        checkIfNegative();
+
         switch (operator){
             case "+":
                 add();
@@ -52,7 +54,12 @@ public class Calculator {
         result = leftValue * rightValue;
     }
 
-    public void negativeValue(){
-
+    public void checkIfNegative(){
+        if (leftNegative){
+            leftValue = -leftValue;
+        }
+        if (rightNegative){
+            rightValue = -rightValue;
+        }
     }
 }

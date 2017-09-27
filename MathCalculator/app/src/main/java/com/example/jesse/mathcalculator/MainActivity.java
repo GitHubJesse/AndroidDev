@@ -199,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,6 +209,8 @@ public class MainActivity extends AppCompatActivity {
                 leftValueFilled = false;
                 calc.leftValue = 0;
                 calc.rightValue = 0;
+                calc.leftNegative = false;
+                calc.rightNegative = false;
                 ioBufferTextView.setText("");
                 ioResultTextView.setText("0");
             }
